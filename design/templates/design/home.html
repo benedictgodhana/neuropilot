@@ -1,0 +1,559 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuropilot - Cognitive Design Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: "FuturaLT";
+            src: url("{% static 'fonts/futura-lt/FuturaLT.ttf' %}") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "FuturaLT";
+            src: url("{% static 'fonts/futura-lt/FuturaLT-Bold.ttf' %}") format("truetype");
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        body {
+            font-family: "FuturaLT", sans-serif;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #5a67d8, #805ad5);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #1a202c;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animated background particles */
+        .particle {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 20s infinite;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-100px) translateX(50px) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        /* Navbar animation */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .navbar {
+            animation: slideDown 0.6s ease-out;
+        }
+
+        /* Hero section animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content {
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        /* Brain icon pulse */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .brain-icon {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Card hover effect */
+        .feature-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Button animations */
+        .btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn:hover::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Glow effect */
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        .glow-text {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        /* Image hover effects */
+        .image-hover {
+            transition: all 0.5s ease;
+        }
+
+        .image-hover:hover {
+            transform: scale(1.05);
+        }
+
+        /* Floating animation */
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 15px); }
+            100% { transform: translate(0, -0px); }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Testimonial card styling */
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Animated background particles -->
+    <div class="particle" style="width: 100px; height: 100px; top: 10%; left: 20%; animation-delay: 0s;"></div>
+    <div class="particle" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+    <div class="particle" style="width: 80px; height: 80px; top: 80%; left: 10%; animation-delay: 4s;"></div>
+    <div class="particle" style="width: 120px; height: 120px; top: 30%; left: 70%; animation-delay: 1s;"></div>
+    <div class="particle" style="width: 90px; height: 90px; top: 50%; left: 40%; animation-delay: 3s;"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar glass sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <svg class="brain-icon w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95.77.82 1.16 1.93 1.01 3.05-.19 1.39-1.19 2.55-2.54 2.95-1.15.34-2.38.14-3.38-.55-.92.64-2.05.98-3.18.98-1.13 0-2.26-.34-3.18-.98-1 .69-2.23.89-3.38.55-1.35-.4-2.35-1.56-2.54-2.95-.15-1.12.24-2.23 1.01-3.05-1.27-.91-1.98-2.4-1.89-3.95.09-1.55.98-2.95 2.4-3.71-.47-.99-.54-2.14-.19-3.22.44-1.37 1.5-2.46 2.83-2.91C6.53 2.8 7.8 2.9 8.89 3.45c.96-.64 2.11-.99 3.27-.99s2.31.35 3.27.99c1.09-.55 2.36-.65 3.58-.38 1.33.45 2.39 1.54 2.83 2.91.35 1.08.28 2.23-.19 3.22 1.42.76 2.31 2.16 2.4 3.71z"/>
+                    </svg>
+                    <span class="text-xl sm:text-2xl font-bold text-white">Neuropilot</span>
+                </div>
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <a href="#features" class="hidden md:block text-white hover:text-purple-200 transition-colors font-medium">Features</a>
+                    <a href="#about" class="hidden md:block text-white hover:text-purple-200 transition-colors font-medium">About</a>
+                    <a href="#testimonials" class="hidden md:block text-white hover:text-purple-200 transition-colors font-medium">Testimonials</a>
+                    <a href="{% url 'login' %}" class="btn bg-white text-purple-600 px-3 sm:px-6 py-2 rounded-lg text-sm sm:text-base font-semibold hover:bg-purple-50">Login</a>
+                    <a href="{% url 'register' %}" class="btn bg-purple-600 text-white px-3 sm:px-6 py-2 rounded-lg text-sm sm:text-base font-semibold hover:bg-purple-700">Start</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 container mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div class="hero-content text-center max-w-4xl mx-auto">
+            <h1 class="glow-text text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">Welcome to Neuropilot</h1>
+            <p class="text-lg sm:text-xl lg:text-2xl text-white/90 mb-6 sm:mb-8">Your AI-Powered Creative Design Tool for Cognitive Accessibility</p>
+            <p class="text-sm sm:text-base lg:text-lg text-white/80 mb-8 sm:mb-12 max-w-2xl mx-auto">Empowering designers to create inclusive, accessible experiences with intelligent AI assistance that understands cognitive needs and adapts to every user.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'register' %}" class="btn bg-white text-purple-600 px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-purple-50 inline-flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    Start Creating
+                </a>
+                <a href="#features" class="btn bg-purple-600/80 backdrop-blur text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:bg-purple-700 inline-flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Learn More
+                </a>
+            </div>
+        </div>
+        
+        <!-- Hero Image -->
+        <div class="mt-16 max-w-5xl mx-auto">
+            <div class="relative rounded-3xl overflow-hidden shadow-2xl image-hover floating">
+                <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2064&q=80" alt="Neuropilot AI design interface showing cognitive accessibility tools" class="w-full h-auto">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="relative z-10 container mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div class="text-center mb-12 sm:mb-16">
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Powerful Features</h2>
+            <p class="text-lg sm:text-xl text-white/80">Everything you need to create accessible, cognitive-friendly designs</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Feature 1 -->
+            <div class="feature-card bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="bg-purple-100 w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6">
+                    <svg class="w-7 h-7 sm:w-8 sm:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">AI-Powered Intelligence</h3>
+                <p class="text-sm sm:text-base text-gray-600">Leverage advanced AI to automatically optimize designs for cognitive accessibility and user experience.</p>
+                <!-- Feature Image -->
+                <div class="mt-6 rounded-xl overflow-hidden image-hover">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80" alt="AI analysis visualization showing neural networks" class="w-full h-40 object-cover">
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="bg-purple-100 w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6">
+                    <svg class="w-7 h-7 sm:w-8 sm:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Cognitive Accessibility</h3>
+                <p class="text-sm sm:text-base text-gray-600">Design with neurodiversity in mind. Our tools ensure your creations are accessible to all cognitive abilities.</p>
+                <!-- Feature Image -->
+                <div class="mt-6 rounded-xl overflow-hidden image-hover">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Accessibility tools showing inclusive design interface" class="w-full h-40 object-cover">
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="bg-purple-100 w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6">
+                    <svg class="w-7 h-7 sm:w-8 sm:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Intuitive Design Tools</h3>
+                <p class="text-sm sm:text-base text-gray-600">Create stunning, accessible designs with our user-friendly interface and powerful editing capabilities.</p>
+                <!-- Feature Image -->
+                <div class="mt-6 rounded-xl overflow-hidden image-hover">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Design tools and interface elements" class="w-full h-40 object-cover">
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="bg-purple-100 w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6">
+                    <svg class="w-7 h-7 sm:w-8 sm:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Real-Time Analytics</h3>
+                <p class="text-sm sm:text-base text-gray-600">Get instant feedback on accessibility scores and cognitive load metrics as you design.</p>
+                <!-- Feature Image -->
+                <div class="mt-6 rounded-xl overflow-hidden image-hover">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Analytics dashboard showing performance metrics" class="w-full h-40 object-cover">
+                </div>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="feature-card bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="bg-purple-100 w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6">
+                    <svg class="w-7 h-7 sm:w-8 sm:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Collaborative Workspace</h3>
+                <p class="text-sm sm:text-base text-gray-600">Work seamlessly with your team in real-time, sharing insights and creating together.</p>
+                <!-- Feature Image -->
+                <div class="mt-6 rounded-xl overflow-hidden image-hover">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Team collaboration in a digital workspace" class="w-full h-40 object-cover">
+                </div>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="feature-card bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="bg-purple-100 w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6">
+                    <svg class="w-7 h-7 sm:w-8 sm:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">Customizable Templates</h3>
+                <p class="text-sm sm:text-base text-gray-600">Start fast with pre-built accessible templates or create your own custom design systems.</p>
+                <!-- Feature Image -->
+                <div class="mt-6 rounded-xl overflow-hidden image-hover">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80" alt="Design templates and layout options" class="w-full h-40 object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="relative z-10 container mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div class="text-center mb-12 sm:mb-16">
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">What Our Users Say</h2>
+            <p class="text-lg sm:text-xl text-white/80">Hear from designers who are creating accessible experiences with Neuropilot</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card bg-white p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Sarah Johnson" class="w-full h-full object-cover">
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="font-bold text-gray-800">Sarah Johnson</h4>
+                        <p class="text-sm text-gray-600">UX Designer</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">"Neuropilot has transformed how I approach accessibility. The AI suggestions have helped me create designs that are truly inclusive."</p>
+                <div class="flex text-yellow-400 mt-3">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card bg-white p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Michael Kim" class="w-full h-full object-cover">
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="font-bold text-gray-800">Michael Kim</h4>
+                        <p class="text-sm text-gray-600">Product Designer</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">"The cognitive load metrics have been a game-changer for our team. We can now quantify accessibility improvements."</p>
+                <div class="flex text-yellow-400 mt-3">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card bg-white p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1061&q=80" alt="Alex Rodriguez" class="w-full h-full object-cover">
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="font-bold text-gray-800">Alex Rodriguez</h4>
+                        <p class="text-sm text-gray-600">Accessibility Specialist</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">"Finally, a tool that understands neurodiversity! Neuropilot helps us create designs that work for everyone."</p>
+                <div class="flex text-yellow-400 mt-3">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="relative z-10 bg-white/10 backdrop-blur-lg py-12 sm:py-20">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">About Neuropilot</h2>
+                    <p class="text-lg sm:text-xl text-white/90 mb-4 sm:mb-6">Neuropilot is revolutionizing the way we think about design accessibility. Built by experts in cognitive science and AI, our platform helps designers create experiences that work for everyone.</p>
+                    <p class="text-base sm:text-lg text-white/80 mb-6 sm:mb-8">We believe that accessible design shouldn't be an afterthought. With Neuropilot, cognitive accessibility is built into every step of your creative process, ensuring that your designs reach and resonate with all users, regardless of their cognitive abilities.</p>
+                </div>
+                
+                <!-- Team Images Section -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                    <div class="rounded-xl overflow-hidden image-hover">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Neuropilot team member" class="w-full h-32 object-cover">
+                    </div>
+                    <div class="rounded-xl overflow-hidden image-hover">
+                        <img src="https://images.unsplash.com/photo-1551836026-d5c88ac5c4d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Neuropilot team member" class="w-full h-32 object-cover">
+                    </div>
+                    <div class="rounded-xl overflow-hidden image-hover">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" alt="Neuropilot team member" class="w-full h-32 object-cover">
+                    </div>
+                    <div class="rounded-xl overflow-hidden image-hover">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1061&q=80" alt="Neuropilot team member" class="w-full h-32 object-cover">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 sm:gap-8 mt-8 sm:mt-12">
+                    <div class="text-center">
+                        <div class="text-3xl sm:text-5xl font-bold text-white mb-2 counter" data-target="10000">10K+</div>
+                        <div class="text-xs sm:text-base text-white/80">Active Designers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl sm:text-5xl font-bold text-white mb-2 counter" data-target="50000">50K+</div>
+                        <div class="text-xs sm:text-base text-white/80">Accessible Designs</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl sm:text-5xl font-bold text-white mb-2 counter" data-target="98">98%</div>
+                        <div class="text-xs sm:text-base text-white/80">Satisfaction Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative z-10 container mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 text-center max-w-4xl mx-auto">
+            <h2 class="text-2xl sm:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">Ready to Create Accessible Designs?</h2>
+            <p class="text-base sm:text-xl text-gray-600 mb-6 sm:mb-8">Join thousands of designers making the web more inclusive, one design at a time.</p>
+            <a href="{% url 'register' %}" class="btn bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold inline-flex items-center justify-center gap-2">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                Get Started Free
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white/5 backdrop-blur-lg border-t border-white/10 py-6 sm:py-8">
+        <div class="container mx-auto px-4 sm:px-6 text-center text-white/70 text-sm sm:text-base">
+            <p>&copy; 2025 Neuropilot. All rights reserved. Empowering accessible design for everyone.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple counter animation for statistics
+        document.addEventListener('DOMContentLoaded', function() {
+            const counters = document.querySelectorAll('.counter');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                let count = 0;
+                const increment = target / 100;
+                
+                const updateCount = () => {
+                    if (count < target) {
+                        count += increment;
+                        counter.innerText = Math.ceil(count) + (target > 100 ? '+' : '%');
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target + (target > 100 ? '+' : '%');
+                    }
+                };
+                
+                // Start counting when element is in viewport
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCount();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                
+                observer.observe(counter);
+            });
+        });
+    </script>
+</body>
+</html>

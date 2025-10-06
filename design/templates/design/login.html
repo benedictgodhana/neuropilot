@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login - Neuropilot</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@font-face {
+ font-family: 'FuturaLT';
+ src: url("{% static 'fonts/futura-lt/FuturaLT.ttf' %}") format('truetype');
+ font-weight: normal;
+ font-style: normal;
+}
+@font-face {
+ font-family: 'FuturaLT';
+ src: url("{% static 'fonts/futura-lt/FuturaLT-Bold.ttf' %}") format('truetype');
+ font-weight: bold;
+ font-style: normal;
+}
+
+body {
+ font-family: 'FuturaLT', sans-serif;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ color: #1a202c;
+ letter-spacing: 0.3px;
+ position: relative;
+ overflow: hidden;
+}
+
+/* Animated background particles */
+.particle {
+ position: absolute;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 50%;
+ pointer-events: none;
+ animation: float 20s infinite;
+}
+
+@keyframes float {
+ 0%, 100% {
+  transform: translateY(0) translateX(0) scale(1);
+  opacity: 0.3;
+ }
+ 50% {
+  transform: translateY(-100px) translateX(50px) scale(1.2);
+  opacity: 0.6;
+ }
+}
+
+/* Card entrance animation */
+@keyframes slideIn {
+ from {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+ }
+ to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+ }
+}
+
+.login-card {
+ animation: slideIn 0.6s ease-out;
+}
+
+/* Input animations */
+input, button {
+ transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input:focus {
+ transform: scale(1.02);
+ box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+button:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+button:active {
+ transform: translateY(0);
+}
+
+/* Label float animation */
+.input-group {
+ position: relative;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+ transform: translateY(-1.5rem) scale(0.85);
+ color: #667eea;
+}
+
+.input-group label {
+ position: absolute;
+ left: 3rem;
+ top: 0.85rem;
+ transition: all 0.3s ease;
+ pointer-events: none;
+ background: white;
+ padding: 0 0.25rem;
+}
+
+/* Title animation */
+@keyframes glow {
+ 0%, 100% {
+  text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+ }
+ 50% {
+  text-shadow: 0 0 30px rgba(102, 126, 234, 0.8);
+ }
+}
+
+.title {
+ animation: glow 3s ease-in-out infinite;
+}
+
+/* Icon pulse animation */
+@keyframes pulse {
+ 0%, 100% {
+  transform: scale(1);
+ }
+ 50% {
+  transform: scale(1.1);
+ }
+}
+
+.brain-icon {
+ animation: pulse 2s ease-in-out infinite;
+}
+
+/* Error message animation */
+@keyframes shake {
+ 0%, 100% { transform: translateX(0); }
+ 25% { transform: translateX(-10px); }
+ 75% { transform: translateX(10px); }
+}
+
+.error-message {
+ animation: shake 0.5s ease-in-out;
+}
+</style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+<!-- Animated background particles -->
+<div class="particle" style="width: 100px; height: 100px; top: 10%; left: 20%; animation-delay: 0s;"></div>
+<div class="particle" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+<div class="particle" style="width: 80px; height: 80px; top: 80%; left: 10%; animation-delay: 4s;"></div>
+<div class="particle" style="width: 120px; height: 120px; top: 30%; left: 70%; animation-delay: 1s;"></div>
+<div class="particle" style="width: 90px; height: 90px; top: 50%; left: 40%; animation-delay: 3s;"></div>
+
+<div class="login-card bg-white p-8 rounded-2xl shadow-2xl w-96 border border-gray-200 relative z-10">
+<div class="flex items-center justify-center mb-6">
+<svg class="brain-icon w-12 h-12 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+<path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95.77.82 1.16 1.93 1.01 3.05-.19 1.39-1.19 2.55-2.54 2.95-1.15.34-2.38.14-3.38-.55-.92.64-2.05.98-3.18.98-1.13 0-2.26-.34-3.18-.98-1 .69-2.23.89-3.38.55-1.35-.4-2.35-1.56-2.54-2.95-.15-1.12.24-2.23 1.01-3.05-1.27-.91-1.98-2.4-1.89-3.95.09-1.55.98-2.95 2.4-3.71-.47-.99-.54-2.14-.19-3.22.44-1.37 1.5-2.46 2.83-2.91C6.53 2.8 7.8 2.9 8.89 3.45c.96-.64 2.11-.99 3.27-.99s2.31.35 3.27.99c1.09-.55 2.36-.65 3.58-.38 1.33.45 2.39 1.54 2.83 2.91.35 1.08.28 2.23-.19 3.22 1.42.76 2.31 2.16 2.4 3.71z"/>
+</svg>
+</div>
+<h1 class="title text-4xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 tracking-wide">Login</h1>
+{% for message in messages %}
+<p class="error-message text-red-500 text-sm mb-3 text-center bg-red-50 py-2 px-3 rounded-lg">{{ message }}</p>
+{% endfor %}
+<form method="POST" class="space-y-6">
+{% csrf_token %}
+<div class="input-group relative">
+<svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+</svg>
+<input type="text" name="username" placeholder=" " class="w-full pl-11 pr-4 py-3 rounded-lg bg-gray-50 text-gray-800 border-2 border-gray-300 focus:border-purple-500 outline-none" required>
+<label class="text-sm font-medium text-gray-500">Username</label>
+</div>
+<div class="input-group relative">
+<svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+</svg>
+<input type="password" name="password" placeholder=" " class="w-full pl-11 pr-4 py-3 rounded-lg bg-gray-50 text-gray-800 border-2 border-gray-300 focus:border-purple-500 outline-none" required>
+<label class="text-sm font-medium text-gray-500">Password</label>
+</div>
+<button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-3 rounded-lg font-semibold tracking-wider shadow-lg flex items-center justify-center gap-2">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+</svg>
+Login
+</button>
+</form>
+<p class="text-sm text-gray-600 text-center mt-6">
+ Don't have an account?
+<a href="{% url 'register' %}" class="text-purple-600 hover:text-purple-700 font-medium hover:underline transition-all">Register</a>
+</p>
+</div>
+</body>
+</html>

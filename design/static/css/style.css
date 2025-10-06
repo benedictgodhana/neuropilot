@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'FuturaLT';
+  src: url('/static/fonts/futura-lt/FuturaLT.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FuturaLT-Bold';
+  src: url('/static/fonts/futura-lt/FuturaLT-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FuturaLT-Light';
+  src: url('/static/fonts/futura-lt/FuturaLT-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Now use it across your site */
+body {
+  font-family: 'FuturaLT', sans-serif;
+  background-color: #f8f9fb;
+  color: #222;
+}
+
+h1, h2, h3, .btn {
+  font-family: 'FuturaLT-Bold', sans-serif;
+  letter-spacing: 0.5px;
+}
